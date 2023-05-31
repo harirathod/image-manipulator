@@ -3,6 +3,8 @@ import numpy as np
 from image_exceptions import InvalidImageMatrixException
 import sys
 
+
+
 def convert_image_to_grayscale(image_path: str) -> np.ndarray:
     """
     Converts a coloured image to grayscale image.
@@ -44,7 +46,7 @@ def save_image(image: np.ndarray, name_of_image: str = "my-edited-image.jpg") ->
     @param name_of_image The filename to save the image with."""
     # Write the image to a file locally.
     try:
-        cv.imwrite(filename=name_of_image, img=image)
+        cv.imwrite(filename="images/" + name_of_image, img=image, )
     except cv.error as err:
         raise InvalidImageMatrixException("Invalid image matrix provided")
 
