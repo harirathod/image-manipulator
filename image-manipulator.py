@@ -5,7 +5,7 @@ import numpy as np
 import sys
 
 
-def convertImageToGrayscale(image_path: str) -> np.ndarray:
+def convert_image_to_grayscale(image_path: str) -> np.ndarray:
     """
     Converts a coloured image to grayscale image.
     Takes an image path of a coloured image, and converts it to a grayscale version of the image, represented as a 
