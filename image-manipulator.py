@@ -26,4 +26,6 @@ def convertImageToGrayscale(image_path: str) -> np.ndarray:
     temp = np.mean(image, axis=2).astype('uint8')
     return temp
 
-convertImageToGrayscale(sys.argv[1])
+def display_image(image: np.ndarray) -> None:
+    cv.imshow("My Image", image)
+
