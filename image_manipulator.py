@@ -20,7 +20,7 @@ def convert_image_to_greyscale(image_path: str) -> np.ndarray:
     if image is None:
          raise FileNotFoundError(f'Image \'{image_path}\' could not be found')
     if image.ndim < 3:
-        raise Exception("Image should already be greyscale")
+        raise InvalidImageMatrixException(f"Image should already be greyscale, as it only has {image.ndim} dimensions")
     # An image with ndim of 3 has width x, height y, and each pixel in the third-dimension is composed of 3 rgb colours.
     # To convert the image to greyscale, we need to give each pixel a new rgb value, where the new rgb value  = (r + g + b) / 3.
     # As the new r = g = b, the pixel is grey.
