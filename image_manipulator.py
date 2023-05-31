@@ -5,24 +5,24 @@ import sys
 
 
 
-def convert_image_to_grayscale(image_path: str) -> np.ndarray:
+def convert_image_to_greyscale(image_path: str) -> np.ndarray:
     """
-    Converts a coloured image to grayscale image.
-    Takes an image path of a coloured image, and converts it to a grayscale version of the image, represented as a 
+    Converts a coloured image to greyscale image.
+    Takes an image path of a coloured image, and converts it to a greyscale version of the image, represented as a 
     as a two-dimensional np.ndarray.
 
     @param image_path The path of the image.
     @throws FileNotFoundException If the image could not be read.
-    @return The grayscale image, represented as a two-dimensional array (np.ndarray).
+    @return The greyscale image, represented as a two-dimensional array (np.ndarray).
     """
     image = cv.imread(image_path, cv.IMREAD_UNCHANGED)
 
     if image is None:
          raise FileNotFoundError(f'Image \'{image_path}\' could not be found')
     if image.ndim < 3:
-        raise Exception("Image should already be grayscale")
+        raise Exception("Image should already be greyscale")
     # An image with ndim of 3 has width x, height y, and each pixel in the third-dimension is composed of 3 rgb colours.
-    # To convert the image to grayscale, we need to give each pixel a new rgb value, where the new rgb value  = (r + g + b) / 3.
+    # To convert the image to greyscale, we need to give each pixel a new rgb value, where the new rgb value  = (r + g + b) / 3.
     # As the new r = g = b, the pixel is grey.
     temp = np.mean(image, axis=(image.ndim - 1)).astype('uint8')
     return temp
@@ -52,6 +52,6 @@ def save_image(image: np.ndarray, name_of_image: str = "my-edited-image.jpg") ->
 
 # Main function that runs if this .py file is run as a script.
 if __name__ == "__main__":
-    image = convert_image_to_grayscale(sys.argv[1])
+    image = convert_image_to_greyscale(sys.argv[1])
     display_image(image)
     save_image(image)
