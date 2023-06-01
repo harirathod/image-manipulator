@@ -100,6 +100,7 @@ def convert_image_to_sepia(image: np.ndarray) -> np.ndarray:
 # Main function that runs if this .py file is run as a script.
 if __name__ == "__main__":
     image = get_image_from_path(sys.argv[1])
-    image = convert_image_to_sepia(image)
+    # image = convert_image_to_sepia(image)
     image = convert_image_to_greyscale(image)
     display_image(image)
+    save_image(image)
