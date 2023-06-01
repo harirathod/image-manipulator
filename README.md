@@ -9,7 +9,7 @@
 The python script 'image_manipulator.py' provides functions for processing images, using OpenCV and NumPy.  
 
 In its current state, it can:
-  - Convert images to greyscale
+  - Convert images to greyscale and sepia
   - Display images in windows
   - Save images to file
 
