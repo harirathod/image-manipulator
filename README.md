@@ -12,7 +12,7 @@ In its current state, it can:
   - Convert images to greyscale and sepia
   - Display images in windows
   - Save images to file
-  - SOON: Convert images to ASCII
+  - _SOON: Convert images to ASCII art_
 
 ## Technologies Used
 - Python3
