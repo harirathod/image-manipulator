@@ -4,14 +4,15 @@
 - **[Overview](#overview)**
 - **[Technologies Used](#technologies-used)**
 - **[Project Status](#project-status)**
+- **[Room for Improvement](#room-for-improvement)**
 
 ## Overview
-The python script 'image_manipulator.py' provides functions for processing images, using OpenCV and NumPy.  
-
+The python module 'image_manipulator.py' provides functions for processing images, using OpenCV and NumPy.  
 In its current state, it can:
-  - Convert images to greyscale
+  - Convert images to greyscale and sepia
   - Display images in windows
   - Save images to file
+  - _SOON: Convert images to ASCII art_
 
 ## Technologies Used
 - Python3
@@ -21,13 +22,16 @@ In its current state, it can:
 ## Project Status
 This project is actively under development.
 
+## Room for Improvement
+
+Looking to add an image to ASCII converter.
 <!-- 
 
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
 - **[How the Project Works](#how-the-project-works)**
 
-- **[Room for Improvement](#room-for-improvement)**
+
 
 
 
@@ -69,8 +73,4 @@ And you're done! You can now try out the cinema booking application via the term
 When the main method of class **com.cinema.cinema.Main** is run to start the cinema booking application, and the Screens in "screens.ser" are loaded into the application.
 
 Any tickets booked by the user are written to "tickets.ser", so are stored persistently. These tickets can be viewed with the 'basket' command. 
-
-## Room for Improvement
-
-Currently integrating the system with MongoDB Atlas. 
 --> 
