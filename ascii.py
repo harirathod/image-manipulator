@@ -1,18 +1,17 @@
+# The purpose of using PIL, is because I want to calculate the darkness of each ASCII character,
 from PIL import Image, ImageDraw, ImageFont
+from matplotlib import font_manager
 import sys
+import string
 
 # We need a function the maps an intensity value (i.e., a colour value of 0 - 255 inclusive), to an ASCII character.
+# Probably have a dictionary of intensity to ASCII characters. We could have 10 ASCII characters.
 global ascii_chars
 ascii_chars = "`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
 
-def colour_to_ascii(colour: int) -> str:
-    match colour:
-        case _ if colour < 10:
-            return 
 
-# The purpose of using PIL, is because I want to calculate the darkness of each ASCII character,
 
-def get_darkness(text: str, font: str = 'Monaco.ttf') -> float:
+def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
     """
     Get the darkness value of text as a decimal between 0 and 1. A value of 0 represents no darkness.
     For example, ' ' (the space character) has no (0) darkness. Should ideally be used with characters e.g., 'h' and 'i' as opposed to 'hi'.
@@ -24,7 +23,7 @@ def get_darkness(text: str, font: str = 'Monaco.ttf') -> float:
     @return The darkness ratio of the text.
     """
 
-    font = ImageFont.truetype(font=font, size=30)
+    font = ImageFont.truetype(font=font, size=40)
 
     # Get the box dimensions of the text, from which, we can calculate the size of the text.
     size = font.getbbox(text)
@@ -49,3 +48,17 @@ def get_darkness(text: str, font: str = 'Monaco.ttf') -> float:
 if __name__ == "__main__":
     darkness_ratio = get_darkness(sys.argv[1])
     print(darkness_ratio)
+
+    
+    # For each ASCII character, put it in a map of 'ascii_char: darkness'.
+    ascii_chars = string.ascii_letters + string.punctuation + string.digits + ' '
+    map = {}
+    for ascii in ascii_chars:
+         map.update({ascii: get_darkness(ascii)})
+
+    # Order the dictionary by darkness value.
+    sorted_ascii = sorted(map, key=map.get)[::10]
+    print(sorted_ascii)
+    print(len(sorted_ascii))
+
+    
