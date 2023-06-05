@@ -34,7 +34,7 @@ def convert_image_to_greyscale(image: np.ndarray) -> np.ndarray:
     # An image with ndim of 3 has width x, height y, and each pixel in the third-dimension is composed of 3 rgb colours.
     # To convert the image to greyscale, we need to give each pixel a new rgb value, where the new rgb value  = (r + g + b) / 3.
     # As the new r = g = b, the pixel is grey.
-    temp = np.mean(image, axis=(image.ndim - 1)).astype('uint8')
+    temp = np.mean(image, axis=(image.ndim - 1)).astype(image.dtype)
     return temp
 
 def display_image(image: np.ndarray, title_of_window: str = "My Image") -> str:
