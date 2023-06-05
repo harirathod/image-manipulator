@@ -12,31 +12,29 @@ def colour_to_ascii(colour: int) -> str:
 
 # The purpose of using PIL, is because I want to calculate the darkness of each ASCII character,
 
-def get_darkness(text: str) -> float:
+def get_darkness(text: str, font: str = 'Monaco.ttf') -> float:
     """
-    Get the darkness value of a character as a decimal between 0 and 1. 0 represents no darkness.
-    For example, ' ' (the space character) has no darkness.
+    Get the darkness value of text as a decimal between 0 and 1. A value of 0 represents no darkness.
+    For example, ' ' (the space character) has no (0) darkness. Should ideally be used with characters e.g., 'h' and 'i' as opposed to 'hi'.
+
+    The darkness is typically font specific.
+
+    @param text The text we want to find the darkness of.
+    @param font The font of the text.
+    @return The darkness ratio of the text.
     """
 
-    font = ImageFont.truetype('Courier New.ttf', 30)
+    font = ImageFont.truetype(font=font, size=30)
 
     # Get the box dimensions of the text, from which, we can calculate the size of the text.
-    size = font.getsize(text)
+    size = font.getbbox(text)
 
-    # Create a grayscale image.
-    image = Image.new('1', (size), 2)
-    
+    # Create a grayscale image. Used size(right, bottom) for (width, height) in Image.new(size=).
+    image = Image.new('1', (size[2], size[3]), 1)
     draw = ImageDraw.Draw(image)
-    draw.text((0, 0), text=text, font=font) # Render the text to the bitmap
-    image.save('text.png')
 
-    for rownum in range(image.size[1]):
-        line = []
-        for colnum in range(image.size[0]):
-            if image.getpixel((colnum, rownum)): line.append(' .'),
-            else: line.append(' #'),
-        print (''.join(line))
-
+    # Render the text to the bitmap
+    draw.text((0, 0), text=text, font=font)
 
     # Count the number of pixels taken up by the text in its 'bounding box'.
     pixel_count = [0]
@@ -44,9 +42,10 @@ def get_darkness(text: str) -> float:
         for row in range(image.size[1]):
             if image.getpixel((column, row)) == 0:
                 pixel_count[0] += 1
-            
-    return pixel_count[0] / (image.size[0] * image.size[1])
+    return pixel_count[0] / ((image.size[0]) * image.size[1])
 
 
+# Main function. If run as a script, the second argument is used as the parameter of get_darkness(), and the darkness ratio is calculated.
 if __name__ == "__main__":
-    print(get_darkness(sys.argv[1]))
+    darkness_ratio = get_darkness(sys.argv[1])
+    print(darkness_ratio)
