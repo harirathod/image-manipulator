@@ -26,6 +26,7 @@ def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
 
     font = ImageFont.truetype(font=font, size=40)
 
+
     # Get the box dimensions of the text, from which, we can calculate the size of the text.
     size = font.getbbox(text)
 
@@ -74,13 +75,13 @@ def colour_to_ascii(luminosity: uint8) -> str:
     return ascii_chars[index]
 
 global ascii_chars
-ascii_chars = get_ascii_chars(10)
+ascii_chars = get_ascii_chars(8)
 
 # Main function. If run as a script, the second argument is used as the parameter of get_darkness(), and the darkness ratio is calculated.
 if __name__ == "__main__":
-    darkness_ratio = get_darkness(sys.argv[1])
-    print(f'Darkness ratio of {sys.argv[1]} is: {darkness_ratio}')
+    if len(sys.argv) > 1:
+        darkness_ratio = get_darkness(sys.argv[1])
+        print(f'Darkness ratio of {sys.argv[1]} is: {darkness_ratio}')
     print(ascii_chars)
-    print(colour_to_ascii(25))
     
     
