@@ -8,15 +8,8 @@ from numpy import uint8
 
 # We need a function the maps an intensity value (i.e., a colour value of 0 - 255 inclusive), to an ASCII character.
 # Probably have a dictionary of intensity to ASCII characters. We could have 10 ASCII characters.
-global ascii_chars
-ascii_chars = "`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
 
-def colour_to_ascii(luminosity: uint8, step: int = 10) -> str:
-    if luminosity == 255:
-        luminosity -= 1
-    chars = get_ascii_chars(step)
-    index = math.floor((luminosity / 255) * len(chars))
-    return chars[index]
+
 
 
 def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
@@ -65,15 +58,29 @@ def get_ascii_chars(step: int = 10, font: str = 'Courier.ttc') -> list:
 
     # Order the dictionary by darkness value.
     sorted_ascii = sorted(map, key=map.get)[::step] # TODO: We haven't checked the darkness values properly. The last two ascii chars may be very close in darkness values. Instead, we should scale the dictionary of darkness to 0.9999 as the max, and get chars for 0.0, 0.1, 0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9.
-    #for char in [' ', '|', '!', '?', 'J', 'n', '@', 'S', '8', 'B']:
-     #   print(char, map.get(char))
+    sorted_ascii.reverse()
     return sorted_ascii
 
+def colour_to_ascii(luminosity: uint8) -> str:
+    """
+    Takes a luminosity value, in the range 0 to 255, and returns an ASCII character representing that luminosity.
+    """
+    if luminosity == 255:
+        luminosity -= 1
+
+    # Using global chars, rather than making a call to get_ascii_chars(), massively improves performance.
+    global ascii_chars
+    index = math.floor((luminosity / 255) * len(ascii_chars))
+    return ascii_chars[index]
+
+global ascii_chars
+ascii_chars = get_ascii_chars(10)
 
 # Main function. If run as a script, the second argument is used as the parameter of get_darkness(), and the darkness ratio is calculated.
 if __name__ == "__main__":
     darkness_ratio = get_darkness(sys.argv[1])
     print(f'Darkness ratio of {sys.argv[1]} is: {darkness_ratio}')
-    print(get_ascii_chars(10))
+    print(ascii_chars)
+    print(colour_to_ascii(25))
     
     
