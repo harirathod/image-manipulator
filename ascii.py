@@ -26,7 +26,6 @@ def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
 
     font = ImageFont.truetype(font=font, size=40)
 
-
     # Get the box dimensions of the text, from which, we can calculate the size of the text.
     size = font.getbbox(text)
 
