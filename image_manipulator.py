@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from image_exceptions import InvalidImageMatrixException
 import sys
+import ascii
 
 def get_image_from_path(image_path: str) -> np.ndarray:
     """
@@ -53,7 +54,7 @@ def display_image(image: np.ndarray, title_of_window: str = "My Image") -> str:
     # Display the image until the user presses any key, upon which the image should close.
     cv.waitKey(0)
 
-def save_image(image: np.ndarray, name_of_image: str = "my-edited-image.jpg") -> None:
+def save_image(image: np.ndarray, name_of_file: str = "my-edited-image.jpg") -> None:
     """
     Saves the image to a file in the current directory.
     @param image The image, as a matrix, to be saved.
@@ -61,9 +62,22 @@ def save_image(image: np.ndarray, name_of_image: str = "my-edited-image.jpg") ->
     @throws InvalidImageMatrixexception if an invalid image matrix is provided. I.e., if it doesn't have an ndim of 3 or less."""
     # Write the image to a file locally.
     try:
-        cv.imwrite(filename="images/" + name_of_image, img=image, )
+        cv.imwrite(filename="images/" + name_of_file, img=image, )
     except cv.error as err:
         raise InvalidImageMatrixException("Invalid image matrix provided")
+
+def save_text(text: str, name_of_file: str = "my_text.txt") -> None:
+    """
+    Saves the text, as a text file, to the current directory.
+    @param text The text to save.
+    @name_of_file The name of the file.
+    """
+    try:
+        with open(name_of_file, 'x') as f:
+            f.write(text)
+    except FileExistsError:
+        with open(name_of_file, 'w') as f:
+            f.write(text)
 
 def convert_image_to_sepia(image: np.ndarray) -> np.ndarray:
     """
@@ -98,15 +112,36 @@ def convert_image_to_sepia(image: np.ndarray) -> np.ndarray:
     return copy
 
 def convert_image_to_ascii(image: np.ndarray) -> str:
-    if image.ndim > 2:
+    """
+    Takes an image (MUST be greyscale, i.e., only have 2 dimensions or less) and returns a string containing the ASCII representation
+    of the image."""
+
+    # Check the image is greyscale.
+    if image.ndim > 2: 
         raise InvalidImageMatrixException('Only grayscale images can be passed into this method')
     
+    result = ""
+    # Loop over the image and convert every pixel to an ASCII character.
+    for row in image:
+        line = []
+        for pixel in row:
+            line.append(ascii.colour_to_ascii(pixel))
+        result += ''.join(line)
+        result += '\n'
+    return result
 
 
 # Main function that runs if this .py file is run as a script.
 if __name__ == "__main__":
     image = get_image_from_path(sys.argv[1])
-    # image = convert_image_to_sepia(image)
+
     image = convert_image_to_greyscale(image)
-    display_image(image)
+    text = convert_image_to_ascii(image)
+
+    save_text(text)
     save_image(image)
+
+    
+    # image = convert_image_to_sepia(image)
+
+    # display_image(image)
