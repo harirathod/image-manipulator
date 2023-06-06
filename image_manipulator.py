@@ -97,6 +97,12 @@ def convert_image_to_sepia(image: np.ndarray) -> np.ndarray:
     copy[..., 2] = red
     return copy
 
+def convert_image_to_ascii(image: np.ndarray) -> str:
+    if image.ndim > 2:
+        raise InvalidImageMatrixException('Only grayscale images can be passed into this method')
+    
+
+
 # Main function that runs if this .py file is run as a script.
 if __name__ == "__main__":
     image = get_image_from_path(sys.argv[1])
