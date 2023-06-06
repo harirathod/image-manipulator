@@ -1,14 +1,22 @@
 # The purpose of using PIL, is because I want to calculate the darkness of each ASCII character,
 from PIL import Image, ImageDraw, ImageFont
-from matplotlib import font_manager
+# from matplotlib import font_manager -> Was used for finding locations of system fonts.
 import sys
 import string
+import math
+from numpy import uint8
 
 # We need a function the maps an intensity value (i.e., a colour value of 0 - 255 inclusive), to an ASCII character.
 # Probably have a dictionary of intensity to ASCII characters. We could have 10 ASCII characters.
 global ascii_chars
 ascii_chars = "`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
 
+def colour_to_ascii(luminosity: uint8, step: int = 10) -> str:
+    if luminosity == 255:
+        luminosity -= 1
+    chars = get_ascii_chars(step)
+    index = math.floor((luminosity / 255) * len(chars))
+    return chars[index]
 
 
 def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
@@ -43,22 +51,29 @@ def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
                 pixel_count[0] += 1
     return pixel_count[0] / ((image.size[0]) * image.size[1])
 
+def get_ascii_chars(step: int = 10, font: str = 'Courier.ttc') -> list:
+    """
+    Get a list of ASCII characters including, letters, digits and punctuation, ordered by ascending darkness ratios.
+    The step determines the spread of the returned ASCII characters. A step of 1 returns all ASCII characters.
+    A step of 10 returns the 0th ASCII char in the list sorted by darkness, then the 9th, then the 19th, etc."""
 
-# Main function. If run as a script, the second argument is used as the parameter of get_darkness(), and the darkness ratio is calculated.
-if __name__ == "__main__":
-    darkness_ratio = get_darkness(sys.argv[1])
-    print(darkness_ratio)
-
-    
     # For each ASCII character, put it in a map of 'ascii_char: darkness'.
     ascii_chars = string.ascii_letters + string.punctuation + string.digits + ' '
     map = {}
     for ascii in ascii_chars:
-         map.update({ascii: get_darkness(ascii)})
+         map.update({ascii: get_darkness(ascii, font=font)})
 
     # Order the dictionary by darkness value.
-    sorted_ascii = sorted(map, key=map.get)[::10]
-    print(sorted_ascii)
-    print(len(sorted_ascii))
+    sorted_ascii = sorted(map, key=map.get)[::step] # TODO: We haven't checked the darkness values properly. The last two ascii chars may be very close in darkness values. Instead, we should scale the dictionary of darkness to 0.9999 as the max, and get chars for 0.0, 0.1, 0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9.
+    #for char in [' ', '|', '!', '?', 'J', 'n', '@', 'S', '8', 'B']:
+     #   print(char, map.get(char))
+    return sorted_ascii
 
+
+# Main function. If run as a script, the second argument is used as the parameter of get_darkness(), and the darkness ratio is calculated.
+if __name__ == "__main__":
+    darkness_ratio = get_darkness(sys.argv[1])
+    print(f'Darkness ratio of {sys.argv[1]} is: {darkness_ratio}')
+    print(get_ascii_chars(10))
+    
     
