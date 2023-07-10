@@ -114,7 +114,9 @@ def convert_image_to_sepia(image: np.ndarray) -> np.ndarray:
 def convert_image_to_ascii(image: np.ndarray) -> str:
     """
     Takes an image (MUST be greyscale, i.e., only have 2 dimensions or less) and returns a string containing the ASCII representation
-    of the image."""
+    of the image.
+    
+    @param image A 2D array (np.ndarray)."""
 
     # Check the image is greyscale.
     if image.ndim > 2: 

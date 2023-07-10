@@ -7,16 +7,16 @@
 - **[Room for Improvement](#room-for-improvement)**
 
 ## Overview
-The python module 'image_manipulator.py' provides functions for processing images, using OpenCV and NumPy.  
+The Python module 'image_manipulator.py' provides functions for processing images, using OpenCV and NumPy.  
 In its current state, it can:
   - Convert images to greyscale and sepia
   - Display images in windows
   - Save images to file
-  - _SOON: Convert images to ASCII art_
+  - Convert images to ASCII art
 
 ## Technologies Used
-- Python3
-- OpenCV
+- Python 3.11.0
+- OpenCV 
 - NumPy
 
 ## Project Status
@@ -24,9 +24,9 @@ This project is actively under development.
 
 ## Room for Improvement
 
-Looking to add an image to ASCII converter.
-<!-- 
+Turn this into a web-application, as opposed to simply stand-alone functions.
 
+<!-- 
 - **[Purpose of Project](#purpose-of-project)**
 - **[Using the Project Yourself](#using-the-project-yourself)**
 - **[How the Project Works](#how-the-project-works)**

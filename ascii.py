@@ -9,18 +9,20 @@ from numpy import uint8
 # We need a function the maps an intensity value (i.e., a colour value of 0 - 255 inclusive), to an ASCII character.
 # Probably have a dictionary of intensity to ASCII characters. We could have 10 ASCII characters.
 
+# Global variable for font-family, to ensure consistency throughout methods.
+global font_family
+font_family = "Courier.ttc"
 
 
-
-def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
+def get_darkness(text: str, font: str = font_family) -> float:
     """
     Get the darkness value of text as a decimal between 0 and 1. A value of 0 represents no darkness.
     For example, ' ' (the space character) has no (0) darkness. Should ideally be used with characters e.g., 'h' and 'i' as opposed to 'hi'.
 
     The darkness is typically font specific.
 
-    @param text The text we want to find the darkness of.
-    @param font The font of the text.
+    @param text: The text we want to find the darkness of.
+    @param font: The font of the text.
     @return The darkness ratio of the text.
     """
 
@@ -44,11 +46,15 @@ def get_darkness(text: str, font: str = 'Courier.ttc') -> float:
                 pixel_count[0] += 1
     return pixel_count[0] / ((image.size[0]) * image.size[1])
 
-def get_ascii_chars(step: int = 10, font: str = 'Courier.ttc') -> list:
+def get_ascii_chars(step: int = 10, font: str = font_family) -> list:
     """
     Get a list of ASCII characters including, letters, digits and punctuation, ordered by ascending darkness ratios.
-    The step determines the spread of the returned ASCII characters. A step of 1 returns all ASCII characters.
-    A step of 10 returns the 0th ASCII char in the list sorted by darkness, then the 9th, then the 19th, etc."""
+    
+    @param step: The step determines the spread of the returned ASCII characters. A step of 1 returns all ASCII characters.
+    A step of 10 returns the 0th ASCII char in the list sorted by darkness, then the 9th, then the 19th, etc.
+    @param font: The font family to base the darkness ratios on. If provided, should be a monospaced font.
+    @return A list of ascii chars, ordered by ascending darkness ratios.
+    """
 
     # For each ASCII character, put it in a map of 'ascii_char: darkness'.
     ascii_chars = string.ascii_letters + string.punctuation + string.digits + ' '
@@ -64,6 +70,8 @@ def get_ascii_chars(step: int = 10, font: str = 'Courier.ttc') -> list:
 def colour_to_ascii(luminosity: uint8) -> str:
     """
     Takes a luminosity value, in the range 0 to 255, and returns an ASCII character representing that luminosity.
+    @param luminosity: A value in the range 0 to 255.
+    @return An ASCII character (a string of length 1).
     """
     if luminosity == 255:
         luminosity -= 1
@@ -73,6 +81,7 @@ def colour_to_ascii(luminosity: uint8) -> str:
     index = math.floor((luminosity / 255) * len(ascii_chars))
     return ascii_chars[index]
 
+# Global variable that keeps track of ascii chars. More efficient than making a call to get_ascii_chars() each time we check the ascii representation of a pixel, with regards to luminosity.
 global ascii_chars
 ascii_chars = get_ascii_chars(8)
 
