@@ -1,3 +1,0 @@
-class InvalidImageMatrixException(Exception):
-    pass
-
