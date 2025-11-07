@@ -24,7 +24,7 @@ This project is actively under development.
 
 ## Room for Improvement
 
-Turn this into a web-application, as opposed to simply stand-alone functions.
+Turn this into a web-application.
 
 <!-- 
 - **[Purpose of Project](#purpose-of-project)**
